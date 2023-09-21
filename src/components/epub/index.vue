@@ -44,7 +44,7 @@ export default {
             }
             doSearch(q).then((result) => {
                 let searchList = result
-                this.removeHighLight()
+                this.searchList.forEach(list=>this.removeHighLight(list))
                 searchList.forEach(list=>this.setHighLight(list))
                 searchList[0] && rendition.display(searchList[0]['cfi'])
                 this.searchList = searchList
@@ -54,11 +54,9 @@ export default {
             const cfiRange = list.cfi;
             rendition.annotations.highlight(cfiRange);
         },
-        removeHighLight() {
-            for (let key in rendition.annotations._annotations) {
-                const list = rendition.annotations._annotations[key]
-                rendition.annotations.remove(list, 'highlight');
-            }
+        removeHighLight(list) {
+            const cfiRange = list.cfi;
+            rendition.annotations.remove(cfiRange, 'highlight');
         },
         async initBook() {
             this.tocIds = []
